@@ -1165,6 +1165,13 @@ When('the user tries to move file/folder {string} into folder {string} using the
 })
 
 When(
+  'the user tries to move file/folder {string} into new folder {string} using the webUI',
+  function(resource, target) {
+    return client.page.FilesPageElement.filesList().moveResourceToNewFolder(resource, target)
+  }
+)
+
+When(
   'the user cancels the attempt to move/copy file/folder into folder {string} using the webUI',
   function(target) {
     return client.page.FilesPageElement.filesList().cancelResourceMoveOrCopyProgress(target)

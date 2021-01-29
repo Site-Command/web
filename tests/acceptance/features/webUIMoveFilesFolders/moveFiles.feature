@@ -118,3 +118,17 @@ Feature: move files
       | data.zip    |
       | lorem.txt   |
       | testapp.zip |
+
+  Scenario: sharee moves a file shared by sharer into another folder
+    Given the setting "shareapi_auto_accept_share" of app "core" has been set to "no"
+    And the administrator has set the default folder for received shares to "Shares"
+    And user "user2" has been created with default attributes
+    And user "user1" has uploaded file with content "test content" to "simple-empty-folder/testFile.txt"
+    And user "user1" has shared folder "/simple-empty-folder" with user "user2"
+    And user "user2" accepts the share "simple-empty-folder" offered by user "user1" using the sharing API
+    And user "user2" has logged in using the webUI
+    And user "user2" has created folder "/Shares/testFolder"
+    And the user has opened folder "Shares"
+    And the user has opened folder "simple-empty-folder"
+    When the user tries to move file "testFile.txt" into new folder "testFolder" using the webUI
+    Then as "user2" file "/Shares/testFolder/testFile.txt" should exist

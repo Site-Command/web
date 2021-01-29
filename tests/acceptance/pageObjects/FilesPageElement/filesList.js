@@ -726,6 +726,18 @@ module.exports = {
       return this
     },
 
+    moveResourceToNewFolder: async function(resource, target) {
+      await this.waitForFileVisible(resource)
+
+      // select file/folder
+      await this.toggleFileOrFolderCheckbox('enable', resource)
+
+      // move file/folder to selected location
+      await client.page.filesPage().moveMultipleResources(target)
+
+      return this
+    },
+
     cancelResourceMoveOrCopyProgress: async function(target) {
       await this.waitForFileVisible(target)
 
